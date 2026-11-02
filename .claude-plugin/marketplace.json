@@ -1,0 +1,13 @@
+{
+  "name": "clumber",
+  "owner": {
+    "name": "Th1nkK1D"
+  },
+  "plugins": [
+    {
+      "name": "clumber",
+      "source": "./",
+      "description": "Personal Claude Code plugin"
+    }
+  ]
+}
