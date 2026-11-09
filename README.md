@@ -4,6 +4,7 @@ Personal Claude Code plugin. Starts with skills, grows as needed.
 
 ## Skills
 
+- [`take-issue`](skills/take-issue/SKILL.md) — take a GitHub issue: check its card, assign you, implement, prove, tidy up, then wait for your go-ahead to commit.
 - [`plan-milestones`](skills/plan-milestones/SKILL.md) — turn a rough idea into a milestone plan doc with checkable "Done when" criteria and flagged blockers.
 - [`run-milestone`](skills/run-milestone/SKILL.md) — run a plan's milestones end to end: implement, review, fix, verify, commit, repeat.
 - [`prove`](skills/prove/SKILL.md) — verify changes actually work (tests/lint/build, or manual checks) before declaring a task done.
