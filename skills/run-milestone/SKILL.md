@@ -60,7 +60,7 @@ Once review is clean, or the 2 rounds are used up and remaining gaps are logged:
 
 Before committing, also reread the milestone's `Notes (M<N>):` entry: it was written before the fix rounds, so prune anything the fixes made stale (a deviation that got fixed, a deferred item that got done) and cut anything low-value (restating the checklist, excess narration). Keep what a future resuming session would actually need.
 
-Once checks and notes are settled, make one commit on the current branch (don't push unless asked). Use the commit message `M<N>: <summary>` — `walkthrough-diff` and future resume checks resolve a milestone's commit by this prefix (`git log --grep='^M<N>:' -1`), not by the hash in the progress table, since that hash can go stale if a commit is later amended or rebased. Separately, update the plan's progress table with the commit hash (this edit lands as a plan-file-only diff ahead of the next milestone's commit — expected, see `plan-milestones`). Close both dispatched agents/sessions.
+Once checks and notes are settled, make one commit on the current branch (don't push unless asked). Follow the repo's existing commit message convention (check `git log` and any `AGENTS.md`/`CLAUDE.md` rules). Then update the plan's progress table with the commit hash (this edit lands as a plan-file-only diff ahead of the next milestone's commit — expected, see `plan-milestones`). Close both dispatched agents/sessions.
 
 ## 5. Continue or stop
 
