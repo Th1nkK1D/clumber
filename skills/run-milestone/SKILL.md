@@ -1,15 +1,29 @@
 ---
 name: run-milestone
-description: Run a plan's milestones (see plan-milestones) end to end, one at a time — dispatch an implementer, get an independent review, fix what's worth fixing, verify, and commit — continuing automatically into subsequent milestones (unless the user asked for just one) until the plan is done or it hits one flagged with a blocker needing the user. Use when the user asks to run/implement/dispatch a milestone, or to continue a plan from where it left off.
+description: Run a plan's milestones (see plan-milestones) end to end, one at a time — implement (inline or via a dispatched agent, chosen by the milestone's complexity), review (with an independent reviewer agent when the complexity warrants), fix what's worth fixing, verify, and commit — continuing automatically into subsequent milestones (unless the user asked for just one) until the plan is done or it hits one flagged with a blocker needing the user. Use when the user asks to run/implement/dispatch a milestone, or to continue a plan from where it left off.
 ---
 
 # run-milestone
 
-You are the orchestrator. You dispatch, you don't implement, and you're the only one who commits.
+You are the orchestrator and the only one who commits. Depending on the milestone's complexity (see "Staffing"), you either implement it yourself or dispatch agents to.
 
 ## 0. Resume check
 
+Use the plan the user names. If they don't, look in `plans/` (or wherever the repo keeps plans): one file is the plan; several, ask which.
+
 If this plan has been worked on before, follow its "Resuming in a new session" section (see `plan-milestones`). One addition to that recipe: a plan-file-only diff updating the previous milestone's commit hash is expected, not an interruption — fold it into whatever you commit next.
+
+## Staffing
+
+Read the milestone's `Complexity:` line (treat a missing one as medium) and choose per milestone. Defaults:
+
+| Complexity | Implementer | Reviewer |
+|---|---|---|
+| low | you, inline | none: your own `prove` plus a read of the diff |
+| medium | dispatched agent | none: your own `prove` plus a read of the diff against the `ponytail-review` rubric |
+| high | dispatched agent | fresh reviewer agent |
+
+These are defaults, not rules: upgrade (e.g. dispatch a reviewer for a medium milestone touching security-sensitive code) when your read of the actual work says the estimate was low, and note any override and why in `Notes`. Don't downgrade a high milestone. Where the steps below say "the implementer" or "the reviewer agent" and that role is you, do it yourself and skip the dispatch and brief.
 
 ## Dispatching agents
 
@@ -24,7 +38,7 @@ To close a leftover session found during the resume check: a pane skill's own cl
 
 ## 1. Implement
 
-Dispatch a fresh agent (per "Dispatching agents" above) in the target repo, running autonomously.
+If staffing says inline, implement it yourself following the rules and finish steps below (verify, tick checkboxes, fill `Notes`), then go to review. Otherwise dispatch a fresh agent (per "Dispatching agents" above) in the target repo, running autonomously.
 
 Send it a brief covering:
 - The plan file path and which milestone section to read, plus the Notes of earlier milestones.
@@ -41,7 +55,7 @@ If something got stubbed (missing credential/external input) and that leaves a "
 Two reviews happen here, and both feed the same fix round — don't relay them separately.
 
 - **You, the orchestrator, check requirements yourself** — use `prove`: don't take the implementer's "Done when" checkmarks on faith, re-run the checks (or exercise the behavior) and see for yourself whether the milestone actually does what the plan asked. This is about fit to the requirement, not code quality.
-- **A fresh reviewer agent** (per "Dispatching agents" above, no shared context — same principle as `peer-review`) gets the milestone's goal, its section of the plan, and the scope: `git status`/`git diff` plus new files. It doesn't edit anything. It checks:
+- **A fresh reviewer agent**, only when staffing calls for one; otherwise read the diff yourself against the same checks below. The reviewer (per "Dispatching agents" above, no shared context — same principle as `peer-review`) gets the milestone's goal, its section of the plan, and the scope: `git status`/`git diff` plus new files. It doesn't edit anything. It checks:
   - Over-engineering (reuse `ponytail-review`'s rubric if available).
   - Correctness bugs.
   - Every checklist item and "Done when" it can independently verify.
@@ -50,17 +64,17 @@ It reports a numbered list: severity, `file:line`, problem, fix. "No findings" i
 
 ## 3. Triage and fix
 
-Combine your own requirement findings with the reviewer's into one list, then triage it per `peer-review` step 4 — fix now vs. skip, each with a reason — but skip `peer-review`'s user-confirmation step, since this loop runs unsupervised. Relay only the fix-now items to the implementer session in one pass; record skipped ones (and why) in the milestone's `Notes`.
+Combine your own requirement findings with the reviewer's into one list, then triage it per `peer-review` step 4 — fix now vs. skip, each with a reason — but skip `peer-review`'s user-confirmation step, since this loop runs unsupervised. Relay only the fix-now items to the implementer session in one pass (or fix them yourself if you implemented inline); record skipped ones (and why) in the milestone's `Notes`.
 
 At most 2 review-and-fix rounds. Anything still open after that goes into `Notes` as a known gap, or to the user if it's a real blocker — don't loop indefinitely chasing a clean review.
 
 ## 4. Gate and commit
 
-Once review is clean, or the 2 rounds are used up and remaining gaps are logged: run `tidy-up` on the milestone's diff (relay it to the implementer rather than editing yourself — you dispatch, you don't implement), then re-run `prove`'s checks against the settled state — but only if anything changed since your last `prove` in step 2; skip the repeat if round 1 was already clean and fix-free.
+Once review is clean, or the 2 rounds are used up and remaining gaps are logged: run `tidy-up` on the milestone's diff (relay it to the implementer if there is one, rather than editing yourself), then re-run `prove`'s checks against the settled state — but only if anything changed since your last `prove` in step 2; skip the repeat if round 1 was already clean and fix-free.
 
 Before committing, also reread the milestone's `Notes (M<N>):` entry: it was written before the fix rounds, so prune anything the fixes made stale (a deviation that got fixed, a deferred item that got done) and cut anything low-value (restating the checklist, excess narration). Keep what a future resuming session would actually need.
 
-Once checks and notes are settled, make one commit on the current branch (don't push unless asked). Follow the repo's existing commit message convention (check `git log` and any `AGENTS.md`/`CLAUDE.md` rules). Then update the plan's progress table with the commit hash (this edit lands as a plan-file-only diff ahead of the next milestone's commit — expected, see `plan-milestones`). Close both dispatched agents/sessions.
+Once checks and notes are settled, make one commit on the current branch (don't push unless asked). Follow the repo's existing commit message convention (check `git log` and any `AGENTS.md`/`CLAUDE.md` rules). Then update the plan's progress table with the commit hash (this edit lands as a plan-file-only diff ahead of the next milestone's commit — expected, see `plan-milestones`). Close any dispatched agents/sessions.
 
 ## 5. Continue or stop
 

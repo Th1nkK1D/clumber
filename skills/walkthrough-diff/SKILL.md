@@ -7,6 +7,8 @@ description: Open a diff in codiff's walkthrough mode for the user to read — c
 
 `codiff -w` is a GUI app and is for the *user* to read — a narrated walkthrough, not a tool for you to parse. Launch it in the background (or its own pane, per the user's environment rules, if one is available) so it doesn't block your turn, then hand control back; don't try to consume its output yourself, and don't wait on it synchronously.
 
+Close what you opened. You can't see when the user finishes reading, so close the codiff pane/process on their next message (or before opening the next walkthrough), unless they say to keep it. Don't leave it running.
+
 ## Summarize first
 
 Before opening codiff, give the user a short summary of what you know about this change, pulled from whatever's cheaply at hand — don't go digging for it:
