@@ -11,6 +11,7 @@ Personal Claude Code plugin. Starts with skills, grows as needed.
 - [`tidy-up`](skills/tidy-up/SKILL.md) — clean up self-explanatory comments and low-value tests on the current changes.
 - [`peer-review`](skills/peer-review/SKILL.md) — get an independent review from a fresh subagent, triage findings, fix what's worth fixing.
 - [`walkthrough-diff`](skills/walkthrough-diff/SKILL.md) — open a diff in codiff's walkthrough mode for the user to read, including milestone-by-milestone.
+- [`draft-pr`](skills/draft-pr/SKILL.md) — read a project's contribution rules, fill what's missing, push the branch (to a fork if needed), and draft the PR plus a link for you to review and post.
 - [`handoff-prompt`](skills/handoff-prompt/SKILL.md) — write a copy-paste prompt that hands the current work to another agent with all needed context.
 
 ## Install
