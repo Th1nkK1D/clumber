@@ -1,6 +1,6 @@
 ---
 name: take-issue
-description: Take a GitHub issue end to end — check its card status, assign the user if it's workable, implement it, prove it works, tidy up, then wait for the user's go-ahead before committing. Use when the user gives an issue URL/number and asks to work on, take, pick up, or implement it.
+description: Take a GitHub issue end to end — check its card status, assign the user if it's workable, reproduce it if it's a bug, implement it, prove it works, tidy up, then wait for the user's go-ahead before committing. Use when the user gives an issue URL/number and asks to work on, take, pick up, or implement it.
 ---
 
 # take-issue
@@ -30,9 +30,11 @@ If any fail, stop and report which one and why (one line each). Don't assign, do
 
 Do the work on the current branch, following the repo's rules (`AGENTS.md`/`CLAUDE.md`). Stay within the issue's scope; note anything adjacent you noticed instead of fixing it.
 
+If the issue is a bug, run the `reproduce` skill first, before changing anything, and keep the steps it produces so the fix can be proved against them.
+
 ## 4. Prove, then tidy up
 
-Run the `prove` skill first and fix what it surfaces until it passes. If the issue includes images (screenshots, mockups, expected-vs-actual), also verify visually: run the app, capture the result, and compare it against those images. Then run `tidy-up` on the changes; if it removed tests or touched code (not just comments), re-run the checks once more.
+Run the `prove` skill first and fix what it surfaces until it passes (for a bug, that includes re-running the reproduce steps). If the issue includes images (screenshots, mockups, expected-vs-actual), also verify visually: run the app, capture the result, and compare it against those images. Then run `tidy-up` on the changes; if it removed tests or touched code (not just comments), re-run the checks once more.
 
 ## 5. Stop before committing
 
