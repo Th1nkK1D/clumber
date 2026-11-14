@@ -1,11 +1,11 @@
 ---
 name: draft-pr
-description: Prepare a pull request for the user to review and post — read the target project's contribution rules, fill what's missing, push the branch (to a fork if needed), then draft the PR title/body and a link to open it. Never creates the PR. Use when the user asks to prepare, draft, or open a PR, or to contribute a change upstream.
+description: Prepare a pull request for the user to review and post — read the target project's contribution rules, do whatever is missing (branch, fixes, commit, push, to a fork if needed), then draft the PR title/body and a link to open it. Never creates the PR. Use when the user asks to prepare, draft, or open a PR, or to contribute a change upstream.
 ---
 
 # draft-pr
 
-Get the current branch ready to become a PR and hand the user a draft plus a link. **Never run `gh pr create` or post anything** — the user reviews and submits it themselves. Use `gh` for all GitHub access.
+Get the current work ready to become a PR and hand the user a draft plus a link. Do every preparation step that isn't already done (branch, fixes, commit, push). Invoking this skill is the user's go-ahead to commit and push for the PR. **Never run `gh pr create` or post anything** — the user reviews and submits it themselves. Use `gh` for all GitHub access.
 
 ## 1. Read the contribution rules
 
@@ -15,9 +15,12 @@ Extract: branch naming, commit message format, required checks (lint/test/build)
 
 ## 2. Fill the gaps
 
-Compare the branch against that list (`git log`/`git diff <base>...HEAD`) and fix what's missing: run the required checks, add the missing test/doc/changelog entry, fill the PR template. Leave fixes uncommitted and report them — don't commit unless the user says so. If commit messages or sign-off don't comply, say so and propose the exact fix (reword/amend) rather than rewriting history unasked.
+Compare the work (uncommitted changes plus `git log`/`git diff <base>...HEAD`) against that list and do what's missing:
 
-If you're on the default branch, stop and ask for a branch name — a PR needs its own branch.
+- **Branch:** if on the default branch, create a branch named per the project's convention (else a short kebab-case name from the change or issue) and switch to it, carrying uncommitted changes along. Leave the local default branch as it is.
+- **Fixes:** run the required checks, add the missing test/doc/changelog entry.
+- **Commit:** commit uncommitted work with a message in the project's format (plus sign-off if required). Squash or split only if the rules require it.
+- **Existing commits:** if their messages or sign-off don't comply, reword/amend them only when they're unpushed local commits; otherwise report it and leave them.
 
 ## 3. Push
 
