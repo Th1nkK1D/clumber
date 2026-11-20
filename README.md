@@ -13,6 +13,7 @@ Personal Claude Code plugin. Starts with skills, grows as needed.
 - [`peer-review`](skills/peer-review/SKILL.md) — get an independent review from a fresh subagent, triage findings, fix what's worth fixing.
 - [`walkthrough-diff`](skills/walkthrough-diff/SKILL.md) — open a diff in codiff's walkthrough mode for the user to read, including milestone-by-milestone.
 - [`draft-pr`](skills/draft-pr/SKILL.md) — read a project's contribution rules, do what's missing (branch, fixes, commit, push to a fork if needed), and draft the PR plus a link for you to review and post.
+- [`setup-statusline`](skills/setup-statusline/SKILL.md) — install the status line (model, context, 5h/7d rate limits, cost) into your Claude Code settings.
 - [`handoff-prompt`](skills/handoff-prompt/SKILL.md) — write a copy-paste prompt that hands the current work to another agent with all needed context.
 
 ## Install
